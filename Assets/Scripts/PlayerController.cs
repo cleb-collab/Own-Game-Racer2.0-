@@ -10,7 +10,11 @@ public class PlayerController : MonoBehaviour
     private float verticalInput;
     public bool gameOver;
     public int health = 3;
-  
+    private float downBound = -4;
+    //Camera Switching 
+    public Camera mainCamera;
+    public Camera hoodCamera;
+    public KeyCode space;
    
 
     // Start is called before the first frame update
@@ -29,7 +33,19 @@ public class PlayerController : MonoBehaviour
         transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
         // Turns the car on the Y axis
         transform.Rotate(Vector3.up * Time.deltaTime * turnSpeed * horizontalInput);
-
+        
+        if (transform.position.y < downBound)
+		{
+			Destroy(gameObject);
+            gameOver = true;
+			Debug.Log("Game Over!");
+		}
+        //Camera Switch
+            if(Input.GetKeyDown(space))
+            {
+                mainCamera.enabled = !mainCamera.enabled;
+                hoodCamera.enabled = !hoodCamera.enabled;
+            }
     }
     private void OnCollisionEnter(Collision other)
 	{
@@ -45,6 +61,7 @@ public class PlayerController : MonoBehaviour
             {
                 health = 0;
                 Debug.Log("Game Over!");
+                Destroy(gameObject);
             }else
             {
                 health -= 1;

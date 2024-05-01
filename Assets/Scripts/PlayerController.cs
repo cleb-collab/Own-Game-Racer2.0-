@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public Camera mainCamera;
     public Camera hoodCamera;
     public KeyCode space;
+    private float topBound = -870; 
    
 
     // Start is called before the first frame update
@@ -46,6 +47,12 @@ public class PlayerController : MonoBehaviour
                 mainCamera.enabled = !mainCamera.enabled;
                 hoodCamera.enabled = !hoodCamera.enabled;
             }
+             if (transform.position.z < topBound)
+		{
+			Destroy(gameObject);
+            gameOver = true;
+			Debug.Log("WIN!");
+		}
     }
     private void OnCollisionEnter(Collision other)
 	{
